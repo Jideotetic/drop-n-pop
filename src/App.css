@@ -1,17 +1,9 @@
 #root {
-  /* border: 1px solid red; */
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
   position: relative;
-  height: 100vh;
-  background: #000;
-}
-
-canvas {
-  display: block;
-  width: 100%;
-  /* height: calc(100vh - 25px); */
-  background: #000;
+  /* height: 100vh;
+  width: 100vw; */
 }
 
 @keyframes logo-spin {
