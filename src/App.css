@@ -1,16 +1,17 @@
 #root {
+  /* border: 1px solid red; */
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  border: 1px solid red;
+  position: relative;
+  height: 100vh;
+  background: #000;
 }
 
 canvas {
-  border: 1px solid red;
   display: block;
-  margin: 0 auto;
-  max-width: 100%;
+  width: 100%;
+  /* height: calc(100vh - 25px); */
+  background: #000;
 }
 
 @keyframes logo-spin {
