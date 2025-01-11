@@ -6,6 +6,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import popSoundUrl from "/Pop-sound-effect.mp3";
 
 export interface BallProperties {
   x: number;
@@ -22,6 +23,8 @@ function App() {
   const [score, setScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
+
+  const popSound = new Audio(popSoundUrl);
 
   function handleClick(event: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
@@ -43,6 +46,8 @@ function App() {
               return false;
             } else {
               setScore((prevScore) => prevScore + ball.value);
+              popSound.currentTime = 0;
+              popSound.play();
               return false;
             }
           }
@@ -93,12 +98,12 @@ function App() {
     <>
       {!gameStarted && (
         <div className="flex justify-center items-center h-screen w-screen">
-          <div className="px-8 sm:items-center sm:justify-center sm:px-0 sm:space-x-5 sm:flex mt-9 shrink-0">
+          <div className="flex px-8 sm:items-center sm:justify-center sm:px-0 sm:space-x-5 sm:flex mt-9">
             <button
               onClick={handleGameStart}
-              className="inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+              className="shrink-0 inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             >
-              Start Game
+              <span className="shrink-0">Start Game</span>
             </button>
           </div>
         </div>
