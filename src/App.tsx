@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { animate } from "./utils/animate";
+import {
+  Description,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 
 export interface BallProperties {
   x: number;
@@ -13,39 +19,9 @@ export interface BallProperties {
 function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ballsRef = useRef<BallProperties[]>([]);
-  const [_score, setScore] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
-
-  // function handleClick(event: React.MouseEvent<HTMLCanvasElement>) {
-  //   const canvas = canvasRef.current;
-  //   if (canvas) {
-  //     const canvasContext = canvas.getContext("2d");
-  //     if (canvasContext) {
-  //       const rect = canvas.getBoundingClientRect();
-  //       const mouseX = event.clientX - rect.left;
-  //       const mouseY = event.clientY - rect.top;
-
-  //       console.log(rect, mouseX, mouseY);
-
-  //       ballsRef.current.forEach((ball, index) => {
-  //         const dist = Math.sqrt(
-  //           Math.pow(mouseX - ball.x, 2) + Math.pow(mouseY - ball.y, 2)
-  //         );
-  //         if (dist < 20) {
-  //           if (ball.bomb) {
-  //             setGameOver(true);
-  //             ballsRef.current = [];
-  //             alert("Game Over");
-  //           } else {
-  //             setScore((prevScore) => prevScore + ball.value);
-  //             ballsRef.current.splice(index, 1);
-  //           }
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
 
   function handleClick(event: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
@@ -64,7 +40,6 @@ function App() {
             if (ball.bomb) {
               setGameOver(true);
               ballsRef.current = [];
-              alert("Game Over");
               return false;
             } else {
               setScore((prevScore) => prevScore + ball.value);
@@ -126,16 +101,36 @@ function App() {
               Start Game
             </button>
           </div>
-          {/* <span>Score: {score}</span> */}
         </div>
       )}
 
       {gameStarted && (
-        <canvas
-          className="block bg-black cursor-pointer w-full"
-          ref={canvasRef}
-          onClick={handleClick}
-        ></canvas>
+        <>
+          <Dialog open={gameOver} onClose={() => {}} className="relative z-50">
+            <div className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black">
+              <DialogPanel className="max-w-lg space-y-4 border bg-white p-12 text-center rounded-lg">
+                <DialogTitle className="font-bold">Game Over</DialogTitle>
+                <Description>Score: {score}</Description>
+                <div className="flex">
+                  <button
+                    onClick={() => {
+                      setGameOver(false);
+                      setGameStarted(false);
+                    }}
+                    className="shrink-0 inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                  >
+                    <span className="shrink-0">Play Again</span>
+                  </button>
+                </div>
+              </DialogPanel>
+            </div>
+          </Dialog>
+          <canvas
+            className="block bg-black cursor-pointer w-full"
+            ref={canvasRef}
+            onClick={handleClick}
+          ></canvas>
+        </>
       )}
     </>
   );
